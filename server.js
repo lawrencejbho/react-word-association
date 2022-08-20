@@ -1,20 +1,12 @@
+require("dotenv").config();
+
 const express = require("express");
 const app = express();
 const port = process.env.PORT || 3001;
 const axios = require("axios");
 
-// Body parameters for the API
-
-// axios
-//   .request(options)
-//   .then(function (response) {
-//     console.log(response.data);
-//   })
-//   .catch(function (error) {
-//     console.error(error);
-//   });
-
 app.get("/api/associations/:word", (req, res) => {
+  // Body parameters for the API
   const encodedParams = new URLSearchParams();
   encodedParams.append("indent", "yes");
   encodedParams.append("lang", "en");
@@ -26,19 +18,20 @@ app.get("/api/associations/:word", (req, res) => {
   const options = {
     method: "POST",
     url: "https://wordassociations-word-associations-v1.p.rapidapi.com/json/search",
-    params: { apikey: "606d17fc-8fc0-49e5-b351-499bea92d92b" },
+    params: { apikey: process.env.API_KEY },
     headers: {
       "content-type": "application/x-www-form-urlencoded",
-      "X-RapidAPI-Key": "d404a1e24fmshd8b99d017f768bep164f9djsn74105ed77c0d",
+      "X-RapidAPI-Key": process.env.RAPID_API_KEY,
       "X-RapidAPI-Host": "wordassociations-word-associations-v1.p.rapidapi.com",
     },
     data: encodedParams,
   };
 
+  // modified this to use data.response
   const request = axios
     .request(options)
     .then(function (response) {
-      console.log(response.data.response);
+      // console.log(response.data.response);
       res.json(response.data.response);
     })
     .catch(function (error) {

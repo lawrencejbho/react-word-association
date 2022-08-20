@@ -1,3 +1,5 @@
+// sample data for troubleshooting
+
 const data = [
   {
     text: "Lay",

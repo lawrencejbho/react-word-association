@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 const axios = require("axios");
 
 // Body parameters for the API
@@ -38,8 +38,8 @@ app.get("/api/associations/:word", (req, res) => {
   const request = axios
     .request(options)
     .then(function (response) {
-      console.log(response.data);
-      res.json(response.data);
+      console.log(response.data.response);
+      res.json(response.data.response);
     })
     .catch(function (error) {
       console.error(error);

@@ -4,6 +4,8 @@ const express = require("express");
 const app = express();
 const port = process.env.PORT || 3001;
 const axios = require("axios");
+// const { nextTick } = require("process");  what is this?
+const path = require("path");
 
 app.get("/api/associations/:word", (req, res) => {
   // Body parameters for the API
@@ -15,6 +17,7 @@ app.get("/api/associations/:word", (req, res) => {
   encodedParams.append("text", req.params.word); // can grab the :word in the URI to be used here
   encodedParams.append("type", "stimulus");
 
+  // need dotenv to hide api keys
   const options = {
     method: "POST",
     url: "https://wordassociations-word-associations-v1.p.rapidapi.com/json/search",
@@ -27,7 +30,7 @@ app.get("/api/associations/:word", (req, res) => {
     data: encodedParams,
   };
 
-  // modified this to use data.response
+  // modified this to use data.response to help grab the items array later
   const request = axios
     .request(options)
     .then(function (response) {
@@ -39,8 +42,25 @@ app.get("/api/associations/:word", (req, res) => {
     });
 });
 
+// can return responses as an object, which can be used for apis probably
 app.get("/", (req, res) => {
   res.send({ express: "YOUR EXPRESS BACKEND IS CONNECTED TO REACT" });
+});
+
+const fileName = "./data.js";
+
+//* Here we're able to serve up document to be returned with sendFile
+app.get("/data", (req, res) => {
+  res.sendFile(path.join(__dirname, "/data.js"));
+});
+
+// can also use this for the data in our react file
+app.get("/data2", (req, res) => {
+  res.sendFile(path.join(__dirname, "client/src/data.js"));
+});
+
+app.get("/test", (req, res) => {
+  res.send("Hello World");
 });
 
 app.listen(port, () => console.log(`Listening on port ${port}`));

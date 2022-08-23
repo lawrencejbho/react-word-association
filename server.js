@@ -6,6 +6,7 @@ const port = process.env.PORT || 3001;
 const axios = require("axios");
 // const { nextTick } = require("process");  what is this?
 const path = require("path");
+const bodyParser = require("body-parser");
 
 app.get("/api/associations/:word", (req, res) => {
   // Body parameters for the API
@@ -46,8 +47,6 @@ app.get("/api/associations/:word", (req, res) => {
 app.get("/", (req, res) => {
   res.send({ express: "YOUR EXPRESS BACKEND IS CONNECTED TO REACT" });
 });
-
-const fileName = "./data.js";
 
 //* Here we're able to serve up document to be returned with sendFile
 app.get("/data", (req, res) => {
